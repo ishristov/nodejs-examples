@@ -30,7 +30,9 @@ const argv = yargs
     title: opts.title
   })
   .help()
+  .alias('help', 'h')
   .argv;
+
 var command = argv._[0];
 
 if (command === 'add') {
@@ -43,8 +45,12 @@ if (command === 'add') {
   }
 } else if (command === 'list') {
   var allNotes = notes.getAll();
-  console.log(`Printing ${allNotes.length} note(s).`)
-  allNotes.forEach((note) => notes.logNote(note))
+  if (allNotes.length) {
+    console.log(`Printing ${allNotes.length} note(s).`)
+    allNotes.forEach((note) => notes.logNote(note))
+  } else {
+    console.log('There are no notes. Try adding one with the "add" command.')
+  }
 } else if (command === 'read') {
   var note = notes.getNote(argv.title);
   if (note) {
