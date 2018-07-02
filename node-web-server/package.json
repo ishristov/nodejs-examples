@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "publishheroku": "cd ../ && git subtree push --prefix node-web-server heroku-nws master || true"
+    "publish": "cd ../ && git subtree push --prefix node-web-server heroku-nws master || true"
   },
   "author": "Ivaylo Hristov",
   "license": "ISC",
