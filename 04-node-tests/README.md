@@ -16,4 +16,4 @@ or
 ```
 npm run test-watch
 ```
-for a continiously running test process.
+for a continuously running test process.
