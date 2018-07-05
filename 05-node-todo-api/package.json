@@ -1,0 +1,30 @@
+{
+  "name": "node-todo-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\"",
+    "publish": "currDir=${PWD##*/} && cd ../ && git subtree push --prefix ${currDir} heroku-todos master || true"
+  },
+  "engines": {
+    "node": "10.5.0"
+  },
+  "author": "Ivaylo Hristov",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "install": "^0.12.1",
+    "mongodb": "^3.1.0",
+    "mongoose": "^5.2.1"
+  },
+  "devDependencies": {
+    "expect": "^23.3.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
+    "supertest": "^3.1.0"
+  }
+}
