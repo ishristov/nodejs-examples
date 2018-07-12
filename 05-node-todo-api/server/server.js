@@ -16,6 +16,11 @@ const port = process.env.PORT
 
 app.use(bodyParser.json())
 
+const errors = {
+  todoNotFound: 'Todo not found',
+  badRequest: 'Bad request'
+}
+
 app.post('/todos', authenticate, (req, res) => {
   var todo = new Todo({
     text: req.body.text,
@@ -24,7 +29,10 @@ app.post('/todos', authenticate, (req, res) => {
   todo.save().then((doc) => {
     res.send(doc)
   }, (e) => {
-    res.status(400).send()
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 
@@ -34,7 +42,10 @@ app.get('/todos', authenticate, (req, res) => {
   }).then((todos) => {
     res.send(todos)
   }, (e) => {
-    res.status(400).send()
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 
@@ -42,7 +53,9 @@ app.get('/todos/:id', authenticate, (req, res) => {
   const id = req.params.id
 
   if (!ObjectID.isValid(id)) {
-    return res.status(404).send()
+    return res.status(404).send({
+      errorMessage: errors.todoNotFound
+    })
   }
 
   Todo.findOne({
@@ -50,12 +63,17 @@ app.get('/todos/:id', authenticate, (req, res) => {
     _creator: req.user._id
   }).then((todo) => {
     if (!todo) {
-      return res.status(404).send()
+      return res.status(404).send({
+        errorMessage: errors.todoNotFound
+      })
     }
 
     res.send(todo)
   }).catch((e) => {
-    res.status(400).send()
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 
@@ -63,7 +81,9 @@ app.delete('/todos/:id', authenticate, (req, res) => {
   const id = req.params.id
 
   if (!ObjectID.isValid(id)) {
-    return res.status(404).send()
+    return res.status(404).send({
+      errorMessage: errors.todoNotFound
+    })
   }
 
   Todo.findOneAndRemove({
@@ -71,12 +91,17 @@ app.delete('/todos/:id', authenticate, (req, res) => {
     _creator: req.user._id
   }).then((todo) => {
     if (!todo) {
-      return res.status(404).send()
+      return res.status(404).send({
+        errorMessage: errors.todoNotFound
+      })
     }
 
     res.send(todo)
   }).catch((e) => {
-    res.status(400).send()
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 
@@ -85,7 +110,9 @@ app.patch('/todos/:id', authenticate, (req, res) => {
   const body = _.pick(req.body, ['text', 'completed'])
 
   if (!ObjectID.isValid(id)) {
-    return res.status(404).send()
+    return res.status(404).send({
+      errorMessage: errors.todoNotFound
+    })
   }
 
   if (_.isBoolean(body.completed) && body.completed) {
@@ -100,12 +127,17 @@ app.patch('/todos/:id', authenticate, (req, res) => {
     _creator: req.user._id
   }, {$set: body}, {new: true}).then((todo) => {
     if (!todo) {
-      return res.status(404).send()
+      return res.status(404).send({
+        errorMessage: errors.todoNotFound
+      })
     }
 
     res.send(todo)
   }).catch((e) => {
-    res.status(400).send()
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 
@@ -118,7 +150,10 @@ app.post('/users', (req, res) => {
   }).then((token) => {
     res.header('x-auth', token).send(user)
   }).catch((e) => {
-    res.status(400).send(e)
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 
@@ -134,15 +169,23 @@ app.post('/users/login', (req, res) => {
       res.header('x-auth', token).send(user)
     })
   }).catch((e) => {
-    res.status(400).send()
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 
 app.delete('/users/me/token', authenticate, (req, res) => {
   req.user.removeToken(req.token).then(() => {
-    res.status(200).send()
+    res.status(200).send({
+      message: 'The user was successfully removed'
+    })
   }, () => {
-    res.status(400).send()
+    res.status(400).send({
+      errorMessage: errors.badRequest,
+      error: e
+    })
   })
 })
 

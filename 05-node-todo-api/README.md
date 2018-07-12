@@ -2,14 +2,92 @@
 
 The API uses [Express](http://expressjs.com/) for the Node.js server, [MongoDB](https://www.mongodb.com/) for the database, [MongoDB official driver for Node.js](https://github.com/mongodb/node-mongodb-native) and [mongoose](http://mongoosejs.com/) for the object modeling.
 
-The test suite includes [Mocha](https://mochajs.org/) for a test framework with [expect](https://github.com/mjackson/expect) for assertions and [supertest](https://github.com/visionmedia/supertest) for testing the Express server.
+The test suite includes [Mocha](https://mochajs.org/) for a test framework with [expect](https://jestjs.io/docs/en/expect) for assertions and [supertest](https://github.com/visionmedia/supertest) for testing the Express server.
 
 ## Live demo
 
 The API is deployed on Heroku [here](https://fast-hamlet-63347.herokuapp.com/) with the MongoDB demo instance hosted on [https://mlab.com/](https://mlab.com/).
 
-todo...
-commands...
+In order to read/write todos you have to create a new user or login with an already created user.
+
+### Create a new user
+```
+curl https://fast-hamlet-63347.herokuapp.com/users \
+  -d '{"email":"ivaylo@example.com","password":"abc123"}' \
+  -X POST \
+  -i \
+  -H "Content-Type: application/json"
+```
+
+### Login with an existing user
+```
+curl https://fast-hamlet-63347.herokuapp.com/users/login \
+  -d '{"email":"ivaylo@example.com","password":"abc123"}' \
+  -X POST \
+  -i \
+  -H "Content-Type: application/json"
+```
+
+The response should contain a `x-auth` header token which should be included in all of the following commands.
+
+### Get current user
+```
+curl https://fast-hamlet-63347.herokuapp.com/users/me -i -H "x-auth: {TOKEN}"
+```
+
+**Important:** Replace `{TOKEN}` with the actual `x-auth` response header received from the create/login user.
+
+### Logout user (deletes authentication token)
+```
+curl https://fast-hamlet-63347.herokuapp.com/users/me/token \
+  -X DELETE \
+  -i \
+  -H "x-auth: {TOKEN}"
+```
+
+**Important:** After this comment, the user should login again and get the new auth token in order to edit their todos.
+
+### Get todos (only for the authenticated user)
+```
+curl https://fast-hamlet-63347.herokuapp.com/todos -i -H "x-auth: {TOKEN}"
+```
+
+### Create a todo
+```
+curl https://fast-hamlet-63347.herokuapp.com/todos \
+  -d '{"text":"First todo"}' \
+  -X POST \
+  -i \
+  -H "Content-Type: application/json" \
+  -H "x-auth: {TOKEN}"
+```
+
+This will return a todo with an `_id` property which can later be used to view/edit/delete it.
+
+### Get a todo by id
+```
+curl https://fast-hamlet-63347.herokuapp.com/todos/{ID} -i -H "x-auth: {TOKEN}"
+```
+
+**Important:** Replace the `{ID}` with the `_id` returned from the create todo command.
+
+### Update a todo by id
+```
+curl https://fast-hamlet-63347.herokuapp.com/todos/{ID} \
+  -d '{"text":"First todo is completed", "completed": true}' \
+  -X PATCH \
+  -i \
+  -H "Content-Type: application/json" \
+  -H "x-auth: {TOKEN}"
+```
+
+### Delete a todo by id
+```
+curl https://fast-hamlet-63347.herokuapp.com/todos/{ID} \
+  -X DELETE \
+  -i \
+  -H "x-auth: {TOKEN}"
+```
 
 ## Dev
 
@@ -38,6 +116,18 @@ This returned a `heroku repo`, i.e. `https://git.heroku.com/fast-hamlet-63347.gi
 ```
 git remote add heroku-todos https://git.heroku.com/fast-hamlet-63347.git
 ```
+
+Before deploying to Heroku we should set 2 environment variables with
+```
+heroku config:set MONGODB_URI=mongodb://test:test1234@ds161520.mlab.com:61520/todo-app
+```
+and
+```
+heroku config:set JWT_SECRET=uu2uhakj01kaoe09zjhfm37
+```
+
+If you have already configured another Heroku example from this repo and you get an error similar to `Multiple apps in get remotes`, just add `--remote heroku-todos` at the end of the commands.
+
 
 To deploy the API to Heroku, we should add and commit all changes with `git` and just run `npm run publish` from the `node-todo-api` folder. Even though the parent `nodejs-examples` is a single repo with multiple examples/projects, `npm run publish` from here will only push the `node-todo-api` to Heroku.
 

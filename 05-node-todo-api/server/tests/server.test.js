@@ -241,7 +241,7 @@ describe('GET /users/me', () => {
       .get('/users/me')
       .expect(401)
       .expect((res) => {
-        expect(res.body).toEqual({})
+        expect(res.body.errorMessage).toBeTruthy()
       })
       .end(done)
   })
