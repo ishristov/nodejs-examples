@@ -10,7 +10,7 @@ The API is deployed on Heroku [here](https://fast-hamlet-63347.herokuapp.com/) w
 
 In order to read/write todos you have to create a new user or login with an already created user.
 
-All available commands are listed below and can be fired with `curl`, however it's much easier to use [Postman](https://www.getpostman.com/) and import the workspace from `/postman/Backup.postman_dump.json`. It contains a collection with all of the commands, Heroku and Local environment and environment variables.
+All available commands are listed below and can be fired with `curl`, however it's much easier to use [Postman](https://www.getpostman.com/) and import the workspace from [postman/Backup.postman_dump.json](postman/Backup.postman_dump.json). It contains a collection with all of the commands, Heroku and Local environment and environment variables.
 
 ### Create a new user
 ```
