@@ -1,0 +1,409 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+			"name": "Todo App",
+			"description": null,
+			"auth": null,
+			"events": null,
+			"variables": null,
+			"order": [
+				"1528dcf6-2938-46af-b72d-f3759bb1abbc",
+				"280df6a6-dabe-446b-b7b8-bb3dc19d84d6",
+				"3106c6d6-0c53-4bb8-a042-854ca0995546",
+				"6254d7e7-7b1d-4a40-9f55-2ffe2502822b",
+				"65205571-f56a-4e73-9fcb-07c5be64be2b",
+				"9749bb6a-01cb-4a7a-aa41-49cabe6106d8",
+				"b40975a9-69ec-4bdb-bb35-e680ee5556d1",
+				"c74499e6-74ef-44a9-9796-6f580a64726c",
+				"f72d82de-51dc-4340-a766-2dd170a49077"
+			],
+			"folders_order": [],
+			"folders": [],
+			"requests": [
+				{
+					"id": "1528dcf6-2938-46af-b72d-f3759bb1abbc",
+					"name": "POST /users/login",
+					"url": "{{url}}/users/login",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"enabled": true
+						},
+						{
+							"key": "x-auth",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjQ0NDUxOWY4ZWJmN2U1MGQ4NTI1ODciLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTMxMjAwNzkzfQ.uY_q7c9QUqTo96hvfVdf2Ipuk318sffmO5X1QMLw7_4",
+							"description": "",
+							"enabled": false
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "325827c1-fffe-4f83-b149-9bc8120731d4",
+								"type": "text/javascript",
+								"exec": [
+									"var token = postman.getResponseHeader('x-auth')",
+									"postman.setEnvironmentVariable('x-auth', token)"
+								]
+							}
+						}
+					],
+					"folder": null,
+					"preRequestScript": null,
+					"tests": "var token = postman.getResponseHeader('x-auth')\npostman.setEnvironmentVariable('x-auth', token)",
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "{\n\t\"email\": \"ivaylo@example.com\",\n\t\"password\": \"abc123!\"\n}",
+					"headers": "Content-Type: application/json\n//x-auth: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjQ0NDUxOWY4ZWJmN2U1MGQ4NTI1ODciLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTMxMjAwNzkzfQ.uY_q7c9QUqTo96hvfVdf2Ipuk318sffmO5X1QMLw7_4\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "280df6a6-dabe-446b-b7b8-bb3dc19d84d6",
+					"name": "DELETE /users/me/token",
+					"url": "{{url}}/users/me/token",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"enabled": false
+						},
+						{
+							"key": "x-auth",
+							"value": "{{x-auth}}",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"method": "DELETE",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "",
+					"headers": "//Content-Type: application/json\nx-auth: {{x-auth}}\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "3106c6d6-0c53-4bb8-a042-854ca0995546",
+					"name": "POST /todos",
+					"url": "{{url}}/todos",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "x-auth",
+							"value": "{{x-auth}}",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "319752fe-8758-435a-89ea-bd45e44a5718",
+								"type": "text/javascript",
+								"exec": [
+									"var body = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable('todoId', body._id)"
+								]
+							}
+						}
+					],
+					"folder": null,
+					"preRequestScript": null,
+					"tests": "var body = JSON.parse(responseBody)\npostman.setEnvironmentVariable('todoId', body._id)",
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "{\n\t\"text\": \"Something to do from postman\"\n}",
+					"headers": "Content-Type: application/json\nx-auth: {{x-auth}}\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "6254d7e7-7b1d-4a40-9f55-2ffe2502822b",
+					"name": "GET /users/me",
+					"url": "{{url}}/users/me",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"enabled": false
+						},
+						{
+							"key": "x-auth",
+							"value": "{{x-auth}}",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "{\n\t\"email\": \"ivaylo@example.com\",\n\t\"password\": \"abc123!\"\n}",
+					"headers": "//Content-Type: application/json\nx-auth: {{x-auth}}\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "65205571-f56a-4e73-9fcb-07c5be64be2b",
+					"name": "GET /todos",
+					"url": "{{url}}/todos",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "x-auth",
+							"value": "{{x-auth}}",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "{\n\t\"text\": \"\"\n}",
+					"headers": "Content-Type: application/json\nx-auth: {{x-auth}}\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "9749bb6a-01cb-4a7a-aa41-49cabe6106d8",
+					"name": "POST /users",
+					"url": "{{url}}/users",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f0163307-952a-48ff-9a31-c9e75ee0ece2",
+								"type": "text/javascript",
+								"exec": [
+									"var token = postman.getResponseHeader('x-auth')",
+									"postman.setEnvironmentVariable('x-auth', token)"
+								]
+							}
+						}
+					],
+					"folder": null,
+					"preRequestScript": null,
+					"tests": "var token = postman.getResponseHeader('x-auth')\npostman.setEnvironmentVariable('x-auth', token)",
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "{\n\t\"email\": \"ivaylo1@example.com\",\n\t\"password\": \"abc123!\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "b40975a9-69ec-4bdb-bb35-e680ee5556d1",
+					"name": "DELETE /todos/:id",
+					"url": "{{url}}/todos/{{todoId}}",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "x-auth",
+							"value": "{{x-auth}}",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"method": "DELETE",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "",
+					"headers": "Content-Type: application/json\nx-auth: {{x-auth}}\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "c74499e6-74ef-44a9-9796-6f580a64726c",
+					"name": "PATCH /todos/:id",
+					"url": "{{url}}/todos/{{todoId}}",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "x-auth",
+							"value": "{{x-auth}}",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"method": "PATCH",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "{\n\t\"completed\": true\n}",
+					"headers": "Content-Type: application/json\nx-auth: {{x-auth}}\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "f72d82de-51dc-4340-a766-2dd170a49077",
+					"name": "GET /todos/:id",
+					"url": "{{url}}/todos/{{todoId}}",
+					"description": "",
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "x-auth",
+							"value": "{{x-auth}}",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "ed457fa4-a664-4a28-a33e-49239fe3ee03",
+					"rawModeData": "{\n\t\"text\": \"\"\n}",
+					"headers": "Content-Type: application/json\nx-auth: {{x-auth}}\n",
+					"pathVariables": {}
+				}
+			]
+		}
+	],
+	"environments": [
+		{
+			"id": "6fa59897-2f85-4d30-9a2b-967eefca0a48",
+			"name": "Todo App Local",
+			"values": [
+				{
+					"key": "url",
+					"value": "localhost:3000",
+					"enabled": true,
+					"type": "text"
+				},
+				{
+					"key": "todoId",
+					"value": "5b45a6dacb07d60841bad82d",
+					"enabled": true,
+					"type": "text"
+				},
+				{
+					"key": "x-auth",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjQ3MGZkNzUyZTYyNDE3OGNkNGM4YTEiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTMxMzgzNzY3fQ.EirFZlLY2ozksyn2Elz0w4sp1622WGXCSn3I3OjIkw4",
+					"enabled": true,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"id": "a2e3287e-1c31-4e91-8d10-86e0952bac44",
+			"name": "Todo App Heroku",
+			"values": [
+				{
+					"key": "url",
+					"value": "https://fast-hamlet-63347.herokuapp.com",
+					"enabled": true,
+					"type": "text"
+				},
+				{
+					"key": "x-auth",
+					"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjQ1YTU5NjU0MDVmNDAwMTQ2NDU2OTEiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTMxMjkxMDMwfQ.W1xNYNS86u_nWIj_wiXuvF1obzlicH9kNA__6MTexG8",
+					"enabled": true,
+					"type": "text"
+				},
+				{
+					"key": "todoId",
+					"value": "5b45a6575405f40014645693",
+					"enabled": true,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"headerPresets": [],
+	"globals": []
+}
