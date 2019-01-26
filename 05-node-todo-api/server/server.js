@@ -16,6 +16,12 @@ const port = process.env.PORT
 
 app.use(bodyParser.json())
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
 const errors = {
   todoNotFound: 'Todo not found',
   badRequest: 'Bad request'
@@ -181,7 +187,7 @@ app.delete('/users/me/token', authenticate, (req, res) => {
     res.status(200).send({
       message: 'The user was successfully removed'
     })
-  }, () => {
+  }, (e) => {
     res.status(400).send({
       errorMessage: errors.badRequest,
       error: e
