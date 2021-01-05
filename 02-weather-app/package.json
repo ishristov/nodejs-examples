@@ -9,7 +9,7 @@
   "author": "Ivaylo Hristov",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "request": "^2.87.0",
     "yargs": "^11.0.0"
   }
